@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Dashboard TV</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+      background: #000;
+      overflow: hidden;
+      font-family: Arial, sans-serif;
+    }
+
+    .container {
+      width: 100%;
+      height: 100%;
+    }
+
+    iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
+    /* Botão escondido (opcional) */
+    .fullscreen-btn {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: rgba(0,0,0,0.6);
+      color: white;
+      border: none;
+      padding: 10px;
+      cursor: pointer;
+      z-index: 10;
+    }
+  </style>
+</head>
+
+<body>
+
+  <button class="fullscreen-btn" onclick="goFullscreen()">⛶</button>
+
+  <div class="container">
+    <iframe 
+      src="https://app.powerbi.com/reportEmbed?reportId=29271ddb-5c7d-4078-978b-9f3355f30ada&autoAuth=true&ctid=bf44588a-9644-4ff0-9f4b-58dc037cd2f6&navContentPaneEnabled=false"
+      allowfullscreen>
+    </iframe>
+  </div>
+
+  <script>
+    function goFullscreen() {
+      const elem = document.documentElement;
+
+      if (elem.requestFullscreen) {
+        elem.requestFullscreen();
+      } else if (elem.webkitRequestFullscreen) {
+        elem.webkitRequestFullscreen();
+      } else if (elem.msRequestFullscreen) {
+        elem.msRequestFullscreen();
+      }
+    }
+
+    // Tenta entrar em fullscreen automaticamente
+    window.onload = () => {
+      setTimeout(() => {
+        goFullscreen();
+      }, 1000);
+    };
+
+    // Reload automático (opcional)
+    setInterval(() => {
+      location.reload();
+    }, 1000 * 60 * 1); // a cada 10 min
+  </script>
+
+</body>
+</html>
