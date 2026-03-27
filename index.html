@@ -27,11 +27,11 @@
 
     iframe {
       position: absolute;
-      top: 0;              /* 👈 mantém topo visível */
+      top: 0;
       left: 0;
       width: 100%;
-      height: calc(100% + 80px); /* 👈 aumenta altura */
-      bottom: -80px;       /* 👈 empurra pra esconder barra de baixo */
+      height: calc(100% + 80px);
+      bottom: -80px;
       border: none;
     }
   </style>
@@ -47,11 +47,39 @@
   </div>
 
   <script>
-    // Atualiza a cada 20 minutos
-    setInterval(() => {
-      const iframe = document.querySelector("iframe");
-      iframe.src = iframe.src;
-    }, 1000 * 60 * 30);
+    function atualizarCiclo15Min() {
+      const agora = new Date();
+      const minutos = agora.getMinutes();
+      const segundos = agora.getSeconds();
+
+      const inicio = 17;
+      const intervalo = 15;
+
+      let proximo;
+
+      if (minutos < inicio) {
+        proximo = inicio;
+      } else {
+        const diff = minutos - inicio;
+        const passos = Math.floor(diff / intervalo) + 1;
+        proximo = inicio + passos * intervalo;
+      }
+
+      if (proximo >= 60) {
+        proximo = proximo; // mantém para cálculo (ex: 62, 77...)
+      }
+
+      const espera = ((proximo - minutos) * 60 - segundos) * 1000;
+
+      setTimeout(() => {
+        const iframe = document.querySelector("iframe");
+        iframe.src = iframe.src;
+
+        atualizarCiclo15Min(); // loop contínuo
+      }, espera);
+    }
+
+    atualizarCiclo15Min();
   </script>
 
 </body>
