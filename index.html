@@ -47,49 +47,29 @@
   </div>
 
   <script>
-    let ultimoRefresh = Date.now();
+  function atualizarNoMinuto18() {
+    const agora = new Date();
+    const minutos = agora.getMinutes();
+    const segundos = agora.getSeconds();
 
-    function atualizarIframe() {
+    let proximo = 18;
+
+    if (minutos > 18 || (minutos === 18 && segundos > 0)) {
+      proximo = 78; // próxima hora (60 + 18)
+    }
+
+    const espera = ((proximo - minutos) * 60 - segundos) * 1000;
+
+    setTimeout(() => {
       const iframe = document.querySelector("iframe");
       iframe.src = iframe.src;
-      ultimoRefresh = Date.now();
-      console.log("Atualizado em:", new Date().toLocaleTimeString());
-    }
 
-    function atualizarHorariosFixos() {
-      const agora = new Date();
-      const minutos = agora.getMinutes();
-      const segundos = agora.getSeconds();
+      atualizarNoMinuto18(); // loop contínuo
+    }, espera);
+  }
 
-      const pontos = [5, 15, 20];
-
-      let proximo = pontos.find(p => p >= minutos);
-
-      if (proximo === undefined) {
-        proximo = 65; // próxima hora (60 + 5)
-      }
-
-      const espera = ((proximo - minutos) * 60 - segundos) * 1000;
-
-      setTimeout(() => {
-        atualizarIframe();
-        atualizarHorariosFixos();
-      }, espera);
-    }
-
-    // 🔥 fallback: força atualização se passar 20 minutos sem atualizar
-    setInterval(() => {
-      const agora = Date.now();
-      const tempoSemAtualizar = agora - ultimoRefresh;
-
-      if (tempoSemAtualizar > 20 * 60 * 1000) {
-        console.log("Fallback ativado");
-        atualizarIframe();
-      }
-    }, 60 * 1000); // verifica a cada 1 min
-
-    atualizarHorariosFixos();
-  </script>
+  atualizarNoMinuto18();
+</script>
 
 </body>
 </html>
